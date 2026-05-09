@@ -1,309 +1,369 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>タロット占い16:45 Full Deck</title>
+<!DOCTYPE html>  <html lang="ja">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>タロット占い16:51 Full Deck</title>  
+<style>  
+body{  
+    margin:0;  
+    padding:20px;  
+    background:#111827;  
+    color:white;  
+    font-family:sans-serif;  
+}  
+.container{  
+    max-width:1200px;  
+    margin:auto;  
+}  
+h1{  
+    text-align:center;  
+    margin-bottom:25px;  
+}  
+.controls{  
+    background:#1f2937;  
+    padding:20px;  
+    border-radius:16px;  
+    margin-bottom:25px;  
+}  
+label{  
+    display:block;  
+    margin-top:15px;  
+    margin-bottom:5px;  
+}  
+select, button{  
+    width:100%;  
+    padding:12px;  
+    border:none;  
+    border-radius:10px;  
+    font-size:16px;  
+}  
+button{  
+    cursor:pointer;  
+    margin-top:15px;  
+    transition:0.2s;  
+}  
+.drawBtn{  
+    background:#7c3aed;  
+    color:white;  
+}  
+.drawBtn:hover{  
+    background:#6d28d9;  
+}  
+.saveBtn{  
+    background:#059669;  
+    color:white;  
+}  
+.saveBtn:hover{  
+    background:#047857;  
+}  
+.deleteBtn{  
+    background:#dc2626;  
+    color:white;  
+}  
+.deleteBtn:hover{  
+    background:#b91c1c;  
+}  
+.cards{  
+    display:grid;  
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));  
+    gap:20px;  
+    margin-top:20px;  
+}  
+.card{  
+    background:#1f2937;  
+    padding:15px;  
+    border-radius:16px;  
+    text-align:center;  
+    box-shadow:0 0 10px rgba(0,0,0,0.3);  
+}  
+.card img{  
+    width:100%;  
+    border-radius:12px;  
+    margin-bottom:12px;  
+}  
+.card h3{  
+    margin:0 0 10px;  
+}  
+.upright{  
+    color:#34d399;  
+    font-weight:bold;  
+}  
+.reversed{  
+    color:#f87171;  
+    font-weight:bold;  
+}  
+.history{  
+    margin-top:40px;  
+    background:#1f2937;  
+    padding:20px;  
+    border-radius:16px;  
+}  
+.historyItem{  
+    border-bottom:1px solid #374151;  
+    padding:20px 0;  
+}  
+.historyItem:last-child{  
+    border-bottom:none;  
+}  
+.savedCard{  
+    margin-bottom:8px;  
+}  
+.date{  
+    color:#9ca3af;  
+    margin-bottom:10px;  
+    font-size:14px;  
+}  
+.deleteSingleBtn{  
+    background:#ef4444;  
+    color:white;  
+    margin-top:15px;  
+}  
+.deleteSingleBtn:hover{  
+    background:#dc2626;  
+}  
+.emptyText{  
+    color:#9ca3af;  
+}  
+</style>  
+</head>  
+<body>  <div class="container">  
+    <h1>🔮 タロット占い Full Deck 🔮</h1>  
+    <div class="controls">  
+        <label>引く枚数 (1〜10)</label>  
+        <select id="cardCount">  
+            <option value="1">1枚</option>  
+            <option value="2">2枚</option>  
+            <option value="3">3枚</option>  
+            <option value="4">4枚</option>  
+            <option value="5">5枚</option>  
+            <option value="6">6枚</option>  
+            <option value="7">7枚</option>  
+            <option value="8">8枚</option>  
+            <option value="9">9枚</option>  
+            <option value="10">10枚</option>  
+        </select>  <label>正逆設定</label>  
+    <select id="reverseMode">  
+        <option value="true">正逆あり</option>  
+        <option value="false">正逆なし</option>  
+    </select>  
 
-<style>
-body{
-    margin:0;
-    padding:20px;
-    background:#111827;
-    color:white;
-    font-family:sans-serif;
-}
+    <button class="drawBtn" onclick="drawTarot()">カードを引く</button>  
+    <button class="saveBtn" onclick="saveResult()">結果を保存</button>  
+    <button class="deleteBtn" onclick="deleteAllHistory()">保存結果を全削除</button>  
+</div>  
 
-.container{
-    max-width:1200px;
-    margin:auto;
-}
+<div class="cards" id="result"></div>  
 
-h1{
-    text-align:center;
-    margin-bottom:25px;
-}
-
-.controls{
-    background:#1f2937;
-    padding:20px;
-    border-radius:16px;
-    margin-bottom:25px;
-}
-
-label{
-    display:block;
-    margin-top:15px;
-    margin-bottom:5px;
-}
-
-select, button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    font-size:16px;
-}
-
-button{
-    cursor:pointer;
-    margin-top:15px;
-    transition:0.2s;
-}
-
-.drawBtn{
-    background:#7c3aed;
-    color:white;
-}
-
-.drawBtn:hover{
-    background:#6d28d9;
-}
-
-.saveBtn{
-    background:#059669;
-    color:white;
-}
-
-.saveBtn:hover{
-    background:#047857;
-}
-
-.deleteBtn{
-    background:#dc2626;
-    color:white;
-}
-
-.deleteBtn:hover{
-    background:#b91c1c;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-    margin-top:20px;
-}
-
-.card{
-    background:#1f2937;
-    padding:15px;
-    border-radius:16px;
-    text-align:center;
-    box-shadow:0 0 10px rgba(0,0,0,0.3);
-}
-
-.card img{
-    width:100%;
-    border-radius:12px;
-    margin-bottom:12px;
-}
-
-.card h3{
-    margin:0 0 10px;
-}
-
-.upright{
-    color:#34d399;
-    font-weight:bold;
-}
-
-.reversed{
-    color:#f87171;
-    font-weight:bold;
-}
-
-.history{
-    margin-top:40px;
-    background:#1f2937;
-    padding:20px;
-    border-radius:16px;
-}
-
-.historyItem{
-    border-bottom:1px solid #374151;
-    padding:20px 0;
-}
-
-.historyItem:last-child{
-    border-bottom:none;
-}
-
-.savedCard{
-    margin-bottom:8px;
-}
-
-.date{
-    color:#9ca3af;
-    margin-bottom:10px;
-    font-size:14px;
-}
-
-.deleteSingleBtn{
-    background:#ef4444;
-    color:white;
-    margin-top:15px;
-}
-
-.deleteSingleBtn:hover{
-    background:#dc2626;
-}
-
-.emptyText{
-    color:#9ca3af;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-    <h1>🔮 タロット占い Full Deck 🔮</h1>
-
-    <div class="controls">
-
-        <label>引く枚数 (1〜10)</label>
-
-        <select id="cardCount">
-            <option value="1">1枚</option>
-            <option value="2">2枚</option>
-            <option value="3">3枚</option>
-            <option value="4">4枚</option>
-            <option value="5">5枚</option>
-            <option value="6">6枚</option>
-            <option value="7">7枚</option>
-            <option value="8">8枚</option>
-            <option value="9">9枚</option>
-            <option value="10">10枚</option>
-        </select>
-
-        <label>正逆設定</label>
-
-        <select id="reverseMode">
-            <option value="true">正逆あり</option>
-            <option value="false">正逆なし</option>
-        </select>
-
-        <button class="drawBtn" onclick="drawTarot()">カードを引く</button>
-
-        <button class="saveBtn" onclick="saveResult()">結果を保存</button>
-
-        <button class="deleteBtn" onclick="deleteAllHistory()">保存結果を全削除</button>
-
-    </div>
-
-    <div class="cards" id="result"></div>
-
-    <div class="history">
-        <h2>保存済み結果</h2>
-        <div id="historyContent">
-            <div class="emptyText">まだ保存された結果はありません。</div>
-        </div>
-    </div>
-
+<div class="history">  
+    <h2>保存済み結果</h2>  
+    <div id="historyContent">  
+        <div class="emptyText">まだ保存された結果はありません。</div>  
+    </div>  
 </div>
 
-<script>
-
-const tarotCards = [
-
-    // カップだけ抜粋
-
-    { name:"カップのエース", image:"https://upload.wikimedia.org/wikipedia/commons/3/36/Cups01.jpg" },
-    { name:"カップの2", image:"https://upload.wikimedia.org/wikipedia/commons/f/f8/Cups02.jpg" },
-    { name:"カップの3", image:"https://upload.wikimedia.org/wikipedia/commons/7/7a/Cups03.jpg" },
-    { name:"カップの4", image:"https://upload.wikimedia.org/wikipedia/commons/3/35/Cups04.jpg" },
-    { name:"カップの5", image:"https://upload.wikimedia.org/wikipedia/commons/d/d7/Cups05.jpg" },
-    { name:"カップの6", image:"https://upload.wikimedia.org/wikipedia/commons/1/17/Cups06.jpg" },
-    { name:"カップの7", image:"https://upload.wikimedia.org/wikipedia/commons/a/ae/Cups07.jpg" },
-    { name:"カップの8", image:"https://upload.wikimedia.org/wikipedia/commons/6/60/Cups08.jpg" },
-    { name:"カップの9", image:"https://upload.wikimedia.org/wikipedia/commons/2/24/Cups09.jpg" },
-
-    // 修正済み
-    { name:"カップの10", image:"https://upload.wikimedia.org/wikipedia/commons/8/84/Cups10.jpg" },
-
-    { name:"カップのペイジ", image:"https://upload.wikimedia.org/wikipedia/commons/a/ad/Cups11.jpg" },
-    { name:"カップのナイト", image:"https://upload.wikimedia.org/wikipedia/commons/f/fa/Cups12.jpg" },
-    { name:"カップのクイーン", image:"https://upload.wikimedia.org/wikipedia/commons/6/62/Cups13.jpg" },
-    { name:"カップのキング", image:"https://upload.wikimedia.org/wikipedia/commons/0/04/Cups14.jpg" }
-
-];
-
-let currentResult = [];
-
-function secureRandom(max){
-    const array = new Uint32Array(1);
-    crypto.getRandomValues(array);
-    return array[0] % max;
-}
-
-function shuffle(array){
-    for(let i = array.length - 1; i > 0; i--){
-        const j = secureRandom(i + 1);
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-}
-
-function drawTarot(){
-
-    const count = parseInt(document.getElementById("cardCount").value);
-
-    const reverseMode =
-        document.getElementById("reverseMode").value === "true";
-
-    let deck = [...tarotCards];
-
-    shuffle(deck);
-
-    const drawn = deck.slice(0, count);
-
-    const resultDiv = document.getElementById("result");
-
-    resultDiv.innerHTML = "";
-
-    currentResult = [];
-
-    drawn.forEach(card => {
-
-        let reversed = false;
-
-        if(reverseMode){
-            reversed = secureRandom(2) === 0;
-        }
-
-        const position = reversed ? "逆位置" : "正位置";
-
-        const className = reversed ? "reversed" : "upright";
-
-        const rotateStyle =
-            reversed ? "transform: rotate(180deg);" : "";
-
-        const cardDiv = document.createElement("div");
-
-        cardDiv.className = "card";
-
-        cardDiv.innerHTML = `
-            <img src="${card.image}" style="${rotateStyle}">
-            <h3>${card.name}</h3>
-            <p class="${className}">${position}</p>
-        `;
-
-        resultDiv.appendChild(cardDiv);
-
-        currentResult.push({
-            name: card.name,
-            image: card.image,
-            position: position,
-            className: className,
-            isReversed: reversed
-        });
-
-    });
-
-}
-
-</script>
-
-</body>
+</div>  <script>  
+const tarotCards = [  
+    // 大アルカナ (22枚)  
+    { name:"愚者", image:"https://upload.wikimedia.org/wikipedia/commons/9/90/RWS_Tarot_00_Fool.jpg" },  
+    { name:"魔術師", image:"https://upload.wikimedia.org/wikipedia/commons/d/de/RWS_Tarot_01_Magician.jpg" },  
+    { name:"女教皇", image:"https://upload.wikimedia.org/wikipedia/commons/8/88/RWS_Tarot_02_High_Priestess.jpg" },  
+    { name:"女帝", image:"https://upload.wikimedia.org/wikipedia/commons/d/d2/RWS_Tarot_03_Empress.jpg" },  
+    { name:"皇帝", image:"https://upload.wikimedia.org/wikipedia/commons/c/c3/RWS_Tarot_04_Emperor.jpg" },  
+    { name:"法王", image:"https://upload.wikimedia.org/wikipedia/commons/8/8d/RWS_Tarot_05_Hierophant.jpg" },  
+    { name:"恋人", image:"https://upload.wikimedia.org/wikipedia/commons/d/db/RWS_Tarot_06_Lovers.jpg" },  
+    { name:"戦車", image:"https://upload.wikimedia.org/wikipedia/commons/9/9b/RWS_Tarot_07_Chariot.jpg" },  
+    { name:"力", image:"https://upload.wikimedia.org/wikipedia/commons/f/f5/RWS_Tarot_08_Strength.jpg" },  
+    { name:"隠者", image:"https://upload.wikimedia.org/wikipedia/commons/4/4d/RWS_Tarot_09_Hermit.jpg" },  
+    { name:"運命の輪", image:"https://upload.wikimedia.org/wikipedia/commons/3/3c/RWS_Tarot_10_Wheel_of_Fortune.jpg" },  
+    { name:"正義", image:"https://upload.wikimedia.org/wikipedia/commons/e/e0/RWS_Tarot_11_Justice.jpg" },  
+    { name:"吊るされた男", image:"https://upload.wikimedia.org/wikipedia/commons/2/2b/RWS_Tarot_12_Hanged_Man.jpg" },  
+    { name:"死神", image:"https://upload.wikimedia.org/wikipedia/commons/d/d7/RWS_Tarot_13_Death.jpg" },  
+    { name:"節制", image:"https://upload.wikimedia.org/wikipedia/commons/f/f8/RWS_Tarot_14_Temperance.jpg" },  
+    { name:"悪魔", image:"https://upload.wikimedia.org/wikipedia/commons/5/55/RWS_Tarot_15_Devil.jpg" },  
+    { name:"塔", image:"https://upload.wikimedia.org/wikipedia/commons/5/53/RWS_Tarot_16_Tower.jpg" },  
+    { name:"星", image:"https://upload.wikimedia.org/wikipedia/commons/d/db/RWS_Tarot_17_Star.jpg" },  
+    { name:"月", image:"https://upload.wikimedia.org/wikipedia/commons/7/7f/RWS_Tarot_18_Moon.jpg" },  
+    { name:"太陽", image:"https://upload.wikimedia.org/wikipedia/commons/1/17/RWS_Tarot_19_Sun.jpg" },  
+    { name:"審判", image:"https://upload.wikimedia.org/wikipedia/commons/d/dd/RWS_Tarot_20_Judgement.jpg" },  
+    { name:"世界", image:"https://upload.wikimedia.org/wikipedia/commons/f/ff/RWS_Tarot_21_World.jpg" },  
+  
+    // ワンド (14枚)  
+    { name:"ワンドのエース", image:"https://upload.wikimedia.org/wikipedia/commons/1/11/Wands01.jpg" },  
+    { name:"ワンドの2", image:"https://upload.wikimedia.org/wikipedia/commons/0/0f/Wands02.jpg" },  
+    { name:"ワンドの3", image:"https://upload.wikimedia.org/wikipedia/commons/f/ff/Wands03.jpg" },  
+    { name:"ワンドの4", image:"https://upload.wikimedia.org/wikipedia/commons/a/a4/Wands04.jpg" },  
+    { name:"ワンドの5", image:"https://upload.wikimedia.org/wikipedia/commons/9/9d/Wands05.jpg" },  
+    { name:"ワンドの6", image:"https://upload.wikimedia.org/wikipedia/commons/3/3b/Wands06.jpg" },  
+    { name:"ワンドの7", image:"https://upload.wikimedia.org/wikipedia/commons/e/e4/Wands07.jpg" },  
+    { name:"ワンドの8", image:"https://upload.wikimedia.org/wikipedia/commons/6/6b/Wands08.jpg" },  
+    { name:"ワンドの9", image:"https://upload.wikimedia.org/wikipedia/commons/e/e7/Wands09.jpg" },  
+    { name:"ワンドの10", image:"https://upload.wikimedia.org/wikipedia/commons/0/0b/Wands10.jpg" },  
+    { name:"ワンドのペイジ", image:"https://upload.wikimedia.org/wikipedia/commons/6/6a/Wands11.jpg" },  
+    { name:"ワンドのナイト", image:"https://upload.wikimedia.org/wikipedia/commons/1/16/Wands12.jpg" },  
+    { name:"ワンドのクイーン", image:"https://upload.wikimedia.org/wikipedia/commons/0/0d/Wands13.jpg" },  
+    { name:"ワンドのキング", image:"https://upload.wikimedia.org/wikipedia/commons/c/ce/Wands14.jpg" },  
+  
+    // カップ (14枚)  
+    { name:"カップのエース", image:"https://upload.wikimedia.org/wikipedia/commons/3/36/Cups01.jpg" },  
+    { name:"カップの2", image:"https://upload.wikimedia.org/wikipedia/commons/f/f8/Cups02.jpg" },  
+    { name:"カップの3", image:"https://upload.wikimedia.org/wikipedia/commons/7/7a/Cups03.jpg" },  
+    { name:"カップの4", image:"https://upload.wikimedia.org/wikipedia/commons/3/35/Cups04.jpg" },  
+    { name:"カップの5", image:"https://upload.wikimedia.org/wikipedia/commons/d/d7/Cups05.jpg" },  
+    { name:"カップの6", image:"https://upload.wikimedia.org/wikipedia/commons/1/17/Cups06.jpg" },  
+    { name:"カップの7", image:"https://upload.wikimedia.org/wikipedia/commons/a/ae/Cups07.jpg" },  
+    { name:"カップの8", image:"https://upload.wikimedia.org/wikipedia/commons/6/60/Cups08.jpg" },  
+    { name:"カップの9", image:"https://upload.wikimedia.org/wikipedia/commons/2/24/Cups09.jpg" },  
+    // 修正箇所: Cups10.jpg から変更  
+    { name:"カップの10", image:"https://upload.wikimedia.org/wikipedia/commons/8/84/Cups10.jpg" },  
+    { name:"カップのペイジ", image:"https://upload.wikimedia.org/wikipedia/commons/a/ad/Cups11.jpg" },  
+    { name:"カップのナイト", image:"https://upload.wikimedia.org/wikipedia/commons/f/fa/Cups12.jpg" },  
+    { name:"カップのクイーン", image:"https://upload.wikimedia.org/wikipedia/commons/6/62/Cups13.jpg" },  
+    { name:"カップのキング", image:"https://upload.wikimedia.org/wikipedia/commons/0/04/Cups14.jpg" },  
+  
+    // ソード (14枚)  
+    { name:"ソードのエース", image:"https://upload.wikimedia.org/wikipedia/commons/1/1a/Swords01.jpg" },  
+    { name:"ソードの2", image:"https://upload.wikimedia.org/wikipedia/commons/9/9e/Swords02.jpg" },  
+    { name:"ソードの3", image:"https://upload.wikimedia.org/wikipedia/commons/0/02/Swords03.jpg" },  
+    { name:"ソードの4", image:"https://upload.wikimedia.org/wikipedia/commons/b/bf/Swords04.jpg" },  
+    { name:"ソードの5", image:"https://upload.wikimedia.org/wikipedia/commons/2/23/Swords05.jpg" },  
+    { name:"ソードの6", image:"https://upload.wikimedia.org/wikipedia/commons/2/29/Swords06.jpg" },  
+    { name:"ソードの7", image:"https://upload.wikimedia.org/wikipedia/commons/3/34/Swords07.jpg" },  
+    { name:"ソードの8", image:"https://upload.wikimedia.org/wikipedia/commons/a/a7/Swords08.jpg" },  
+    { name:"ソードの9", image:"https://upload.wikimedia.org/wikipedia/commons/2/2f/Swords09.jpg" },  
+    { name:"ソードの10", image:"https://upload.wikimedia.org/wikipedia/commons/d/d4/Swords10.jpg" },  
+    { name:"ソードのペイジ", image:"https://upload.wikimedia.org/wikipedia/commons/4/4c/Swords11.jpg" },  
+    { name:"ソードのナイト", image:"https://upload.wikimedia.org/wikipedia/commons/b/b0/Swords12.jpg" },  
+    { name:"ソードのクイーン", image:"https://upload.wikimedia.org/wikipedia/commons/d/d4/Swords13.jpg" },  
+    { name:"ソードのキング", image:"https://upload.wikimedia.org/wikipedia/commons/3/33/Swords14.jpg" },  
+  
+    // ペンタクル (14枚)  
+    { name:"ペンタクルのエース", image:"https://upload.wikimedia.org/wikipedia/commons/f/fd/Pents01.jpg" },  
+    { name:"ペンタクルの2", image:"https://upload.wikimedia.org/wikipedia/commons/9/9f/Pents02.jpg" },  
+    { name:"ペンタクルの3", image:"https://upload.wikimedia.org/wikipedia/commons/4/42/Pents03.jpg" },  
+    { name:"ペンタクルの4", image:"https://upload.wikimedia.org/wikipedia/commons/3/35/Pents04.jpg" },  
+    { name:"ペンタクルの5", image:"https://upload.wikimedia.org/wikipedia/commons/9/96/Pents05.jpg" },  
+    { name:"ペンタクルの6", image:"https://upload.wikimedia.org/wikipedia/commons/a/a6/Pents06.jpg" },  
+    { name:"ペンタクルの7", image:"https://upload.wikimedia.org/wikipedia/commons/6/6a/Pents07.jpg" },  
+    { name:"ペンタクルの8", image:"https://upload.wikimedia.org/wikipedia/commons/4/49/Pents08.jpg" },  
+    { name:"ペンタクルの9", image:"https://upload.wikimedia.org/wikipedia/commons/f/f0/Pents09.jpg" },  
+    { name:"ペンタクルの10", image:"https://upload.wikimedia.org/wikipedia/commons/4/42/Pents10.jpg" },  
+    { name:"ペンタクルのペイジ", image:"https://upload.wikimedia.org/wikipedia/commons/e/ec/Pents11.jpg" },  
+    { name:"ペンタクルのナイト", image:"https://upload.wikimedia.org/wikipedia/commons/d/d5/Pents12.jpg" },  
+    { name:"ペンタクルのクイーン", image:"https://upload.wikimedia.org/wikipedia/commons/8/88/Pents13.jpg" },  
+    { name:"ペンタクルのキング", image:"https://upload.wikimedia.org/wikipedia/commons/1/1c/Pents14.jpg" }  
+];  
+  
+let currentResult = [];  
+  
+function secureRandom(max){  
+    const array = new Uint32Array(1);  
+    crypto.getRandomValues(array);  
+    return array[0] % max;  
+}  
+  
+function shuffle(array){  
+    for(let i = array.length - 1; i > 0; i--){  
+        const j = secureRandom(i + 1);  
+        [array[i], array[j]] = [array[j], array[i]];  
+    }  
+}  
+  
+function drawTarot(){  
+    const count = parseInt(document.getElementById("cardCount").value);  
+    const reverseMode = document.getElementById("reverseMode").value === "true";  
+    let deck = [...tarotCards];  
+    shuffle(deck);  
+    const drawn = deck.slice(0, count);  
+    const resultDiv = document.getElementById("result");  
+    resultDiv.innerHTML = "";  
+    currentResult = [];  
+  
+    drawn.forEach(card => {  
+        let reversed = false;  
+        if(reverseMode){  
+            reversed = secureRandom(2) === 0;  
+        }  
+        const position = reversed ? "逆位置" : "正位置";  
+        const className = reversed ? "reversed" : "upright";  
+        const rotateStyle = reversed ? "transform: rotate(180deg);" : "";  
+  
+        const cardDiv = document.createElement("div");  
+        cardDiv.className = "card";  
+        cardDiv.innerHTML = `  
+            <img src="${card.image}" style="${rotateStyle}">  
+            <h3>${card.name}</h3>  
+            <p class="${className}">${position}</p>  
+        `;  
+        resultDiv.appendChild(cardDiv);  
+  
+        currentResult.push({  
+            name: card.name,  
+            image: card.image,  
+            position: position,  
+            className: className,  
+            isReversed: reversed  
+        });  
+    });  
+}  
+  
+function saveResult(){  
+    if(currentResult.length === 0){  
+        alert("先にカードを引いてください");  
+        return;  
+    }  
+    const history = JSON.parse(localStorage.getItem("tarotHistory")) || [];  
+    history.unshift({  
+        date: new Date().toLocaleString(),  
+        cards: currentResult  
+    });  
+    localStorage.setItem("tarotHistory", JSON.stringify(history));  
+    loadHistory();  
+    alert("結果を保存しました");  
+}  
+  
+function loadHistory(){  
+    const historyContent = document.getElementById("historyContent");  
+    const history = JSON.parse(localStorage.getItem("tarotHistory")) || [];  
+  
+    if(history.length === 0){  
+        historyContent.innerHTML = `<div class="emptyText">まだ保存された結果はありません。</div>`;  
+        return;  
+    }  
+  
+    let html = "";  
+    history.forEach((item, index) => {  
+        html += `<div class="historyItem"><div class="date">${item.date}</div>`;  
+        item.cards.forEach(card => {  
+            const rotateStyle = card.isReversed ? "transform: rotate(180deg);" : "";  
+            html += `  
+            <div class="savedCard" style="display:inline-block; margin: 10px; text-align:center; vertical-align:top; width:120px;">  
+                <img src="${card.image}" width="120" style="border-radius:10px; margin-bottom:8px; ${rotateStyle}">  
+                <br>  
+                <span style="font-size:14px;">${card.name}</span>  
+                <br>  
+                <span class="${card.className}" style="font-size:12px;">${card.position}</span>  
+            </div>`;  
+        });  
+        html += `<br><button class="deleteSingleBtn" onclick="deleteSingleHistory(${index})">この結果を削除</button></div>`;  
+    });  
+    historyContent.innerHTML = html;  
+}  
+  
+function deleteSingleHistory(index){  
+    if(!confirm("この結果を削除しますか？")) return;  
+    const history = JSON.parse(localStorage.getItem("tarotHistory")) || [];  
+    history.splice(index, 1);  
+    localStorage.setItem("tarotHistory", JSON.stringify(history));  
+    loadHistory();  
+}  
+  
+function deleteAllHistory(){  
+    if(!confirm("保存された結果を全削除しますか？")) return;  
+    localStorage.removeItem("tarotHistory");  
+    loadHistory();  
+    alert("全削除しました");  
+}  
+  
+loadHistory();  
+</script>  </body>  
 </html>

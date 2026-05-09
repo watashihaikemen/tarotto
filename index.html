@@ -221,86 +221,119 @@ button{
 
 <script>
 
-const majorArcana = [
-
-"Fool","Magician","High_Priestess","Empress","Emperor",
-"Hierophant","Lovers","Chariot","Strength","Hermit",
-"Wheel_of_Fortune","Justice","Hanged_Man","Death",
-"Temperance","Devil","Tower","Star","Moon","Sun",
-"Judgement","World"
-
-];
-
-const tarotCards = [];
+const tarotCards = [
 
 /* 大アルカナ */
 
-const majorNames = [
-
-"愚者","魔術師","女教皇","女帝","皇帝",
-"法王","恋人","戦車","力","隠者",
-"運命の輪","正義","吊るされた男","死神",
-"節制","悪魔","塔","星","月","太陽",
-"審判","世界"
+{
+name:"愚者",
+image:"https://upload.wikimedia.org/wikipedia/commons/9/90/RWS_Tarot_00_Fool.jpg"
+},
+{
+name:"魔術師",
+image:"https://upload.wikimedia.org/wikipedia/commons/d/de/RWS_Tarot_01_Magician.jpg"
+},
+{
+name:"女教皇",
+image:"https://upload.wikimedia.org/wikipedia/commons/8/88/RWS_Tarot_02_High_Priestess.jpg"
+},
+{
+name:"女帝",
+image:"https://upload.wikimedia.org/wikipedia/commons/d/d2/RWS_Tarot_03_Empress.jpg"
+},
+{
+name:"皇帝",
+image:"https://upload.wikimedia.org/wikipedia/commons/c/c3/RWS_Tarot_04_Emperor.jpg"
+},
+{
+name:"法王",
+image:"https://upload.wikimedia.org/wikipedia/commons/8/8d/RWS_Tarot_05_Hierophant.jpg"
+},
+{
+name:"恋人",
+image:"https://upload.wikimedia.org/wikipedia/commons/3/3a/TheLovers.jpg"
+},
+{
+name:"戦車",
+image:"https://upload.wikimedia.org/wikipedia/commons/9/9b/RWS_Tarot_07_Chariot.jpg"
+},
+{
+name:"力",
+image:"https://upload.wikimedia.org/wikipedia/commons/f/f5/RWS_Tarot_08_Strength.jpg"
+},
+{
+name:"隠者",
+image:"https://upload.wikimedia.org/wikipedia/commons/4/4d/RWS_Tarot_09_Hermit.jpg"
+},
+{
+name:"運命の輪",
+image:"https://upload.wikimedia.org/wikipedia/commons/3/3c/RWS_Tarot_10_Wheel_of_Fortune.jpg"
+},
+{
+name:"正義",
+image:"https://upload.wikimedia.org/wikipedia/commons/e/e0/RWS_Tarot_11_Justice.jpg"
+},
+{
+name:"吊るされた男",
+image:"https://upload.wikimedia.org/wikipedia/commons/2/2b/RWS_Tarot_12_Hanged_Man.jpg"
+},
+{
+name:"死神",
+image:"https://upload.wikimedia.org/wikipedia/commons/d/d7/RWS_Tarot_13_Death.jpg"
+},
+{
+name:"節制",
+image:"https://upload.wikimedia.org/wikipedia/commons/f/f8/RWS_Tarot_14_Temperance.jpg"
+},
+{
+name:"悪魔",
+image:"https://upload.wikimedia.org/wikipedia/commons/5/55/RWS_Tarot_15_Devil.jpg"
+},
+{
+name:"塔",
+image:"https://upload.wikimedia.org/wikipedia/commons/5/53/RWS_Tarot_16_Tower.jpg"
+},
+{
+name:"星",
+image:"https://upload.wikimedia.org/wikipedia/commons/d/db/RWS_Tarot_17_Star.jpg"
+},
+{
+name:"月",
+image:"https://upload.wikimedia.org/wikipedia/commons/7/7f/RWS_Tarot_18_Moon.jpg"
+},
+{
+name:"太陽",
+image:"https://upload.wikimedia.org/wikipedia/commons/1/17/RWS_Tarot_19_Sun.jpg"
+},
+{
+name:"審判",
+image:"https://upload.wikimedia.org/wikipedia/commons/d/dd/RWS_Tarot_20_Judgement.jpg"
+},
+{
+name:"世界",
+image:"https://upload.wikimedia.org/wikipedia/commons/f/ff/RWS_Tarot_21_World.jpg"
+}
 
 ];
 
-majorArcana.forEach((card, index)=>{
-
-    tarotCards.push({
-
-        name: majorNames[index],
-
-        image:
-`https://upload.wikimedia.org/wikipedia/commons/${
-[
-"9/90/RWS_Tarot_00_Fool.jpg",
-"d/de/RWS_Tarot_01_Magician.jpg",
-"8/88/RWS_Tarot_02_High_Priestess.jpg",
-"d/d2/RWS_Tarot_03_Empress.jpg",
-"c/c3/RWS_Tarot_04_Emperor.jpg",
-"8/8d/RWS_Tarot_05_Hierophant.jpg",
-"3/3a/TheLovers.jpg",
-"9/9b/RWS_Tarot_07_Chariot.jpg",
-"f/f5/RWS_Tarot_08_Strength.jpg",
-"4/4d/RWS_Tarot_09_Hermit.jpg",
-"3/3c/RWS_Tarot_10_Wheel_of_Fortune.jpg",
-"e/e0/RWS_Tarot_11_Justice.jpg",
-"2/2b/RWS_Tarot_12_Hanged_Man.jpg",
-"d/d7/RWS_Tarot_13_Death.jpg",
-"f/f8/RWS_Tarot_14_Temperance.jpg",
-"5/55/RWS_Tarot_15_Devil.jpg",
-"5/53/RWS_Tarot_16_Tower.jpg",
-"d/db/RWS_Tarot_17_Star.jpg",
-"7/7f/RWS_Tarot_18_Moon.jpg",
-"1/17/RWS_Tarot_19_Sun.jpg",
-"d/dd/RWS_Tarot_20_Judgement.jpg",
-"f/ff/RWS_Tarot_21_World.jpg"
-][index]
-}`
-
-    });
-
-});
-
-/* 小アルカナ */
+/* 小アルカナ追加 */
 
 const suits = [
 {
-    japanese:"ワンド",
-    english:"Wands"
+japanese:"ワンド",
+english:"wands"
 },
 {
-    japanese:"カップ",
-    english:"Cups"
+japanese:"カップ",
+english:"cups"
 },
 {
-    japanese:"ソード",
-    english:"Swords"
+japanese:"ソード",
+english:"swords"
 },
 {
-    japanese:"ペンタクル",
-    english:"Pentacles"
+japanese:"ペンタクル",
+english:"pentacles"
 }
 ];
 
@@ -316,19 +349,21 @@ const japaneseRanks = [
 
 suits.forEach(suit=>{
 
-    ranks.forEach((rank,index)=>{
+ranks.forEach((rank,index)=>{
 
-        tarotCards.push({
+let fileRank = rank.toLowerCase();
 
-            name:
-            `${suit.japanese}の${japaneseRanks[index]}`,
+tarotCards.push({
 
-            image:
-            `https://raw.githubusercontent.com/ekelen/tarot-api/master/static/cards/${rank.toLowerCase()}_of_${suit.english.toLowerCase()}.jpg`
+name:
+`${suit.japanese}の${japaneseRanks[index]}`,
 
-        });
+image:
+`https://www.trustedtarot.com/img/cards/${fileRank}-of-${suit.english}.jpg`
 
-    });
+});
+
+});
 
 });
 
@@ -336,246 +371,249 @@ let currentResult = [];
 
 function secureRandom(max){
 
-    const array = new Uint32Array(1);
+const array = new Uint32Array(1);
 
-    crypto.getRandomValues(array);
+crypto.getRandomValues(array);
 
-    return array[0] % max;
+return array[0] % max;
+
 }
 
 function shuffle(array){
 
-    for(let i = array.length - 1; i > 0; i--){
+for(let i = array.length - 1; i > 0; i--){
 
-        const j = secureRandom(i + 1);
+const j = secureRandom(i + 1);
 
-        [array[i], array[j]] = [array[j], array[i]];
-    }
+[array[i], array[j]] = [array[j], array[i]];
+
+}
+
 }
 
 function drawTarot(){
 
-    const count =
-    parseInt(document.getElementById("cardCount").value);
+const count =
+parseInt(document.getElementById("cardCount").value);
 
-    const reverseMode =
-    document.getElementById("reverseMode").value === "true";
+const reverseMode =
+document.getElementById("reverseMode").value === "true";
 
-    let deck = [...tarotCards];
+let deck = [...tarotCards];
 
-    shuffle(deck);
+shuffle(deck);
 
-    const drawn = deck.slice(0, count);
+const drawn = deck.slice(0, count);
 
-    const resultDiv =
-    document.getElementById("result");
+const resultDiv =
+document.getElementById("result");
 
-    resultDiv.innerHTML = "";
+resultDiv.innerHTML = "";
 
-    currentResult = [];
+currentResult = [];
 
-    drawn.forEach(card => {
+drawn.forEach(card => {
 
-        let reversed = false;
+let reversed = false;
 
-        if(reverseMode){
-            reversed = secureRandom(2) === 0;
-        }
+if(reverseMode){
+reversed = secureRandom(2) === 0;
+}
 
-        const position =
-        reversed ? "逆位置" : "正位置";
+const position =
+reversed ? "逆位置" : "正位置";
 
-        const className =
-        reversed ? "reversed" : "upright";
+const className =
+reversed ? "reversed" : "upright";
 
-        const rotateStyle =
-        reversed ? "transform: rotate(180deg);" : "";
+const rotateStyle =
+reversed ? "transform: rotate(180deg);" : "";
 
-        const cardDiv =
-        document.createElement("div");
+const cardDiv =
+document.createElement("div");
 
-        cardDiv.className = "card";
+cardDiv.className = "card";
 
-        cardDiv.innerHTML = `
+cardDiv.innerHTML = `
 
-            <img
-                src="${card.image}"
-                style="${rotateStyle}"
-            >
+<img
+src="${card.image}"
+style="${rotateStyle}"
+>
 
-            <h3>${card.name}</h3>
+<h3>${card.name}</h3>
 
-            <p class="${className}">
-                ${position}
-            </p>
-        `;
+<p class="${className}">
+${position}
+</p>
+`;
 
-        resultDiv.appendChild(cardDiv);
+resultDiv.appendChild(cardDiv);
 
-        currentResult.push({
-            name: card.name,
-            image: card.image,
-            position: position,
-            className: className,
-            rotateStyle: rotateStyle
-        });
+currentResult.push({
+name: card.name,
+image: card.image,
+position: position,
+className: className,
+rotateStyle: rotateStyle
+});
 
-    });
+});
 
 }
 
 function saveResult(){
 
-    if(currentResult.length === 0){
+if(currentResult.length === 0){
 
-        alert("先にカードを引いてください");
+alert("先にカードを引いてください");
 
-        return;
-    }
+return;
+}
 
-    const history =
-    JSON.parse(
-        localStorage.getItem("tarotHistory")
-    ) || [];
+const history =
+JSON.parse(
+localStorage.getItem("tarotHistory")
+) || [];
 
-    history.unshift({
+history.unshift({
 
-        date: new Date().toLocaleString(),
+date: new Date().toLocaleString(),
 
-        cards: currentResult
+cards: currentResult
 
-    });
+});
 
-    localStorage.setItem(
-        "tarotHistory",
-        JSON.stringify(history)
-    );
+localStorage.setItem(
+"tarotHistory",
+JSON.stringify(history)
+);
 
-    loadHistory();
+loadHistory();
 
-    alert("結果を保存しました");
+alert("結果を保存しました");
 
 }
 
 function loadHistory(){
 
-    const historyContent =
-    document.getElementById("historyContent");
+const historyContent =
+document.getElementById("historyContent");
 
-    const history =
-    JSON.parse(
-        localStorage.getItem("tarotHistory")
-    ) || [];
+const history =
+JSON.parse(
+localStorage.getItem("tarotHistory")
+) || [];
 
-    if(history.length === 0){
+if(history.length === 0){
 
-        historyContent.innerHTML = `
-            <div class="emptyText">
-                まだ保存された結果はありません。
-            </div>
-        `;
+historyContent.innerHTML = `
+<div class="emptyText">
+まだ保存された結果はありません。
+</div>
+`;
 
-        return;
-    }
+return;
+}
 
-    let html = "";
+let html = "";
 
-    history.forEach((item, index) => {
+history.forEach((item, index) => {
 
-        html += `
-        <div class="historyItem">
+html += `
+<div class="historyItem">
 
-            <div class="date">
-                ${item.date}
-            </div>
-        `;
+<div class="date">
+${item.date}
+</div>
+`;
 
-        item.cards.forEach(card => {
+item.cards.forEach(card => {
 
-            html += `
+html += `
 
-            <div class="savedCard">
+<div class="savedCard">
 
-                <img
-                    src="${card.image}"
-                    width="120"
-                    style="
-                        border-radius:10px;
-                        margin-bottom:8px;
-                        ${card.rotateStyle}
-                    "
-                >
+<img
+src="${card.image}"
+width="120"
+style="
+border-radius:10px;
+margin-bottom:8px;
+${card.rotateStyle}
+"
+>
 
-                <br>
+<br>
 
-                ${card.name}
+${card.name}
 
-                -
+-
 
-                <span class="${card.className}">
-                    ${card.position}
-                </span>
+<span class="${card.className}">
+${card.position}
+</span>
 
-            </div>
-            `;
-        });
+</div>
+`;
+});
 
-        html += `
+html += `
 
-            <button
-                class="deleteSingleBtn"
-                onclick="deleteSingleHistory(${index})"
-            >
-                この結果を削除
-            </button>
+<button
+class="deleteSingleBtn"
+onclick="deleteSingleHistory(${index})"
+>
+この結果を削除
+</button>
 
-        </div>
-        `;
-    });
+</div>
+`;
+});
 
-    historyContent.innerHTML = html;
+historyContent.innerHTML = html;
 
 }
 
 function deleteSingleHistory(index){
 
-    const confirmDelete =
-    confirm("この結果を削除しますか？");
+const confirmDelete =
+confirm("この結果を削除しますか？");
 
-    if(!confirmDelete){
-        return;
-    }
+if(!confirmDelete){
+return;
+}
 
-    const history =
-    JSON.parse(
-        localStorage.getItem("tarotHistory")
-    ) || [];
+const history =
+JSON.parse(
+localStorage.getItem("tarotHistory")
+) || [];
 
-    history.splice(index, 1);
+history.splice(index, 1);
 
-    localStorage.setItem(
-        "tarotHistory",
-        JSON.stringify(history)
-    );
+localStorage.setItem(
+"tarotHistory",
+JSON.stringify(history)
+);
 
-    loadHistory();
+loadHistory();
 
 }
 
 function deleteAllHistory(){
 
-    const confirmDelete =
-    confirm("保存された結果を全削除しますか？");
+const confirmDelete =
+confirm("保存された結果を全削除しますか？");
 
-    if(!confirmDelete){
-        return;
-    }
+if(!confirmDelete){
+return;
+}
 
-    localStorage.removeItem("tarotHistory");
+localStorage.removeItem("tarotHistory");
 
-    loadHistory();
+loadHistory();
 
-    alert("全削除しました");
+alert("全削除しました");
 
 }
 

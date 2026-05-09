@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>タロット占い</title>
 
@@ -118,7 +118,7 @@ button{
 
 .historyItem{
     border-bottom:1px solid #374151;
-    padding:15px 0;
+    padding:20px 0;
 }
 
 .historyItem:last-child{
@@ -128,7 +128,25 @@ button{
 .date{
     color:#9ca3af;
     font-size:14px;
-    margin-bottom:8px;
+    margin-bottom:12px;
+}
+
+.savedCard{
+    margin-bottom:5px;
+}
+
+.deleteSingleBtn{
+    background:#ef4444;
+    color:white;
+    margin-top:15px;
+}
+
+.deleteSingleBtn:hover{
+    background:#dc2626;
+}
+
+.emptyText{
+    color:#9ca3af;
 }
 
 </style>
@@ -172,7 +190,7 @@ button{
 結果を保存
 </button>
 
-<button class="deleteBtn" onclick="deleteHistory()">
+<button class="deleteBtn" onclick="deleteAllHistory()">
 保存結果を全削除
 </button>
 
@@ -181,10 +199,15 @@ button{
 <div class="cards" id="result"></div>
 
 <div class="history">
+
 <h2>保存済み結果</h2>
+
 <div id="historyContent">
+<div class="emptyText">
 まだ保存された結果はありません。
 </div>
+</div>
+
 </div>
 
 </div>
@@ -219,8 +242,11 @@ const tarotCards = [
 let currentResult = [];
 
 function secureRandom(max){
+
     const array = new Uint32Array(1);
+
     crypto.getRandomValues(array);
+
     return array[0] % max;
 }
 
@@ -236,7 +262,8 @@ function shuffle(array){
 
 function drawTarot(){
 
-    const count = parseInt(document.getElementById("cardCount").value);
+    const count =
+    parseInt(document.getElementById("cardCount").value);
 
     const reverseMode =
     document.getElementById("reverseMode").value === "true";
@@ -247,7 +274,8 @@ function drawTarot(){
 
     const drawn = deck.slice(0, count);
 
-    const resultDiv = document.getElementById("result");
+    const resultDiv =
+    document.getElementById("result");
 
     resultDiv.innerHTML = "";
 
@@ -261,14 +289,22 @@ function drawTarot(){
             reversed = secureRandom(2) === 0;
         }
 
-        const cardDiv = document.createElement("div");
+        const position =
+        reversed ? "逆位置" : "正位置";
+
+        const className =
+        reversed ? "reversed" : "upright";
+
+        const cardDiv =
+        document.createElement("div");
 
         cardDiv.className = "card";
 
         cardDiv.innerHTML = `
             <h3>${card}</h3>
-            <p class="${reversed ? 'reversed' : 'upright'}">
-                ${reversed ? '逆位置' : '正位置'}
+
+            <p class="${className}">
+                ${position}
             </p>
         `;
 
@@ -276,7 +312,8 @@ function drawTarot(){
 
         currentResult.push({
             name: card,
-            position: reversed ? "逆位置" : "正位置"
+            position: position,
+            className: className
         });
 
     });
@@ -286,16 +323,23 @@ function drawTarot(){
 function saveResult(){
 
     if(currentResult.length === 0){
+
         alert("先にカードを引いてください");
+
         return;
     }
 
     const history =
-    JSON.parse(localStorage.getItem("tarotHistory")) || [];
+    JSON.parse(
+        localStorage.getItem("tarotHistory")
+    ) || [];
 
     history.unshift({
+
         date: new Date().toLocaleString(),
+
         cards: currentResult
+
     });
 
     localStorage.setItem(
@@ -315,19 +359,24 @@ function loadHistory(){
     document.getElementById("historyContent");
 
     const history =
-    JSON.parse(localStorage.getItem("tarotHistory")) || [];
+    JSON.parse(
+        localStorage.getItem("tarotHistory")
+    ) || [];
 
     if(history.length === 0){
 
-        historyContent.innerHTML =
-        "まだ保存された結果はありません。";
+        historyContent.innerHTML = `
+            <div class="emptyText">
+                まだ保存された結果はありません。
+            </div>
+        `;
 
         return;
     }
 
     let html = "";
 
-    history.forEach(item => {
+    history.forEach((item, index) => {
 
         html += `
         <div class="historyItem">
@@ -340,20 +389,62 @@ function loadHistory(){
         item.cards.forEach(card => {
 
             html += `
+            <div class="savedCard">
+
                 ${card.name}
-                - ${card.position}<br>
+                -
+
+                <span class="${card.className}">
+                    ${card.position}
+                </span>
+
+            </div>
             `;
         });
 
-        html += `</div>`;
+        html += `
 
+            <button
+                class="deleteSingleBtn"
+                onclick="deleteSingleHistory(${index})"
+            >
+                この結果を削除
+            </button>
+
+        </div>
+        `;
     });
 
     historyContent.innerHTML = html;
 
 }
 
-function deleteHistory(){
+function deleteSingleHistory(index){
+
+    const confirmDelete =
+    confirm("この結果を削除しますか？");
+
+    if(!confirmDelete){
+        return;
+    }
+
+    const history =
+    JSON.parse(
+        localStorage.getItem("tarotHistory")
+    ) || [];
+
+    history.splice(index, 1);
+
+    localStorage.setItem(
+        "tarotHistory",
+        JSON.stringify(history)
+    );
+
+    loadHistory();
+
+}
+
+function deleteAllHistory(){
 
     const confirmDelete =
     confirm("保存された結果を全削除しますか？");
@@ -366,7 +457,7 @@ function deleteHistory(){
 
     loadHistory();
 
-    alert("削除しました");
+    alert("全削除しました");
 
 }
 
@@ -375,4 +466,4 @@ loadHistory();
 </script>
 
 </body>
-    </html>
+</html>

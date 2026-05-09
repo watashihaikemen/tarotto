@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>タロット占い</title>
+<title>タロット占い 完全版</title>
 
 <style>
 
@@ -17,7 +17,7 @@ body{
 }
 
 .container{
-    max-width:1100px;
+    max-width:1200px;
     margin:auto;
 }
 
@@ -82,8 +82,8 @@ button{
 
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:15px;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
     margin-top:20px;
 }
 
@@ -93,6 +93,13 @@ button{
     border-radius:16px;
     text-align:center;
     box-shadow:0 0 10px rgba(0,0,0,0.3);
+}
+
+.card img{
+    width:100%;
+    border-radius:12px;
+    margin-bottom:12px;
+    transition:0.3s;
 }
 
 .card h3{
@@ -125,14 +132,14 @@ button{
     border-bottom:none;
 }
 
-.date{
-    color:#9ca3af;
-    font-size:14px;
-    margin-bottom:12px;
+.savedCard{
+    margin-bottom:15px;
 }
 
-.savedCard{
-    margin-bottom:5px;
+.date{
+    color:#9ca3af;
+    margin-bottom:10px;
+    font-size:14px;
 }
 
 .deleteSingleBtn{
@@ -156,7 +163,7 @@ button{
 
 <div class="container">
 
-<h1>🔮 タロット占い 🔮</h1>
+<h1>🔮 タロット占い 完全版 🔮</h1>
 
 <div class="controls">
 
@@ -214,30 +221,116 @@ button{
 
 <script>
 
-const tarotCards = [
+const majorArcana = [
 
-"愚者","魔術師","女教皇","女帝","皇帝","法王","恋人",
-"戦車","力","隠者","運命の輪","正義","吊るされた男",
-"死神","節制","悪魔","塔","星","月","太陽","審判","世界",
-
-"ワンドのエース","ワンドの2","ワンドの3","ワンドの4","ワンドの5",
-"ワンドの6","ワンドの7","ワンドの8","ワンドの9","ワンドの10",
-"ワンドのペイジ","ワンドのナイト","ワンドのクイーン","ワンドのキング",
-
-"カップのエース","カップの2","カップの3","カップの4","カップの5",
-"カップの6","カップの7","カップの8","カップの9","カップの10",
-"カップのペイジ","カップのナイト","カップのクイーン","カップのキング",
-
-"ソードのエース","ソードの2","ソードの3","ソードの4","ソードの5",
-"ソードの6","ソードの7","ソードの8","ソードの9","ソードの10",
-"ソードのペイジ","ソードのナイト","ソードのクイーン","ソードのキング",
-
-"ペンタクルのエース","ペンタクルの2","ペンタクルの3","ペンタクルの4",
-"ペンタクルの5","ペンタクルの6","ペンタクルの7","ペンタクルの8",
-"ペンタクルの9","ペンタクルの10","ペンタクルのペイジ",
-"ペンタクルのナイト","ペンタクルのクイーン","ペンタクルのキング"
+"Fool","Magician","High_Priestess","Empress","Emperor",
+"Hierophant","Lovers","Chariot","Strength","Hermit",
+"Wheel_of_Fortune","Justice","Hanged_Man","Death",
+"Temperance","Devil","Tower","Star","Moon","Sun",
+"Judgement","World"
 
 ];
+
+const tarotCards = [];
+
+/* 大アルカナ */
+
+const majorNames = [
+
+"愚者","魔術師","女教皇","女帝","皇帝",
+"法王","恋人","戦車","力","隠者",
+"運命の輪","正義","吊るされた男","死神",
+"節制","悪魔","塔","星","月","太陽",
+"審判","世界"
+
+];
+
+majorArcana.forEach((card, index)=>{
+
+    tarotCards.push({
+
+        name: majorNames[index],
+
+        image:
+`https://upload.wikimedia.org/wikipedia/commons/${
+[
+"9/90/RWS_Tarot_00_Fool.jpg",
+"d/de/RWS_Tarot_01_Magician.jpg",
+"8/88/RWS_Tarot_02_High_Priestess.jpg",
+"d/d2/RWS_Tarot_03_Empress.jpg",
+"c/c3/RWS_Tarot_04_Emperor.jpg",
+"8/8d/RWS_Tarot_05_Hierophant.jpg",
+"3/3a/TheLovers.jpg",
+"9/9b/RWS_Tarot_07_Chariot.jpg",
+"f/f5/RWS_Tarot_08_Strength.jpg",
+"4/4d/RWS_Tarot_09_Hermit.jpg",
+"3/3c/RWS_Tarot_10_Wheel_of_Fortune.jpg",
+"e/e0/RWS_Tarot_11_Justice.jpg",
+"2/2b/RWS_Tarot_12_Hanged_Man.jpg",
+"d/d7/RWS_Tarot_13_Death.jpg",
+"f/f8/RWS_Tarot_14_Temperance.jpg",
+"5/55/RWS_Tarot_15_Devil.jpg",
+"5/53/RWS_Tarot_16_Tower.jpg",
+"d/db/RWS_Tarot_17_Star.jpg",
+"7/7f/RWS_Tarot_18_Moon.jpg",
+"1/17/RWS_Tarot_19_Sun.jpg",
+"d/dd/RWS_Tarot_20_Judgement.jpg",
+"f/ff/RWS_Tarot_21_World.jpg"
+][index]
+}`
+
+    });
+
+});
+
+/* 小アルカナ */
+
+const suits = [
+{
+    japanese:"ワンド",
+    english:"Wands"
+},
+{
+    japanese:"カップ",
+    english:"Cups"
+},
+{
+    japanese:"ソード",
+    english:"Swords"
+},
+{
+    japanese:"ペンタクル",
+    english:"Pentacles"
+}
+];
+
+const ranks = [
+"Ace","2","3","4","5","6","7","8","9","10",
+"Page","Knight","Queen","King"
+];
+
+const japaneseRanks = [
+"エース","2","3","4","5","6","7","8","9","10",
+"ペイジ","ナイト","クイーン","キング"
+];
+
+suits.forEach(suit=>{
+
+    ranks.forEach((rank,index)=>{
+
+        tarotCards.push({
+
+            name:
+            `${suit.japanese}の${japaneseRanks[index]}`,
+
+            image:
+            `https://raw.githubusercontent.com/ekelen/tarot-api/master/static/cards/${rank.toLowerCase()}_of_${suit.english.toLowerCase()}.jpg`
+
+        });
+
+    });
+
+});
 
 let currentResult = [];
 
@@ -295,13 +388,22 @@ function drawTarot(){
         const className =
         reversed ? "reversed" : "upright";
 
+        const rotateStyle =
+        reversed ? "transform: rotate(180deg);" : "";
+
         const cardDiv =
         document.createElement("div");
 
         cardDiv.className = "card";
 
         cardDiv.innerHTML = `
-            <h3>${card}</h3>
+
+            <img
+                src="${card.image}"
+                style="${rotateStyle}"
+            >
+
+            <h3>${card.name}</h3>
 
             <p class="${className}">
                 ${position}
@@ -311,9 +413,11 @@ function drawTarot(){
         resultDiv.appendChild(cardDiv);
 
         currentResult.push({
-            name: card,
+            name: card.name,
+            image: card.image,
             position: position,
-            className: className
+            className: className,
+            rotateStyle: rotateStyle
         });
 
     });
@@ -389,9 +493,23 @@ function loadHistory(){
         item.cards.forEach(card => {
 
             html += `
+
             <div class="savedCard">
 
+                <img
+                    src="${card.image}"
+                    width="120"
+                    style="
+                        border-radius:10px;
+                        margin-bottom:8px;
+                        ${card.rotateStyle}
+                    "
+                >
+
+                <br>
+
                 ${card.name}
+
                 -
 
                 <span class="${card.className}">
